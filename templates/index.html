@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{ bootstrap.load_css() }}
+    {{ bootstrap.load_js() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/index.css') }}">
+    <title>Map Display</title>
+
+</head>
+<body>
+    <form class="d-flex" method="post" action="/index">
+        <label for="origin" class="visually-hidden">Origin:</label>
+        <input type="text" name="origin" class="form-control me-2" placeholder="Origin" required>
+
+        <label for="destination" class="visually-hidden">Destination:</label>
+        <input type="text" name="destination" class="form-control me-2" placeholder="Destination" required>
+
+        <button type="submit" class="btn btn-secondary me-2" >Get Route</button>
+    </form>
+    {% if route_info %}
+    <div class="horizontal-box d-flex justify-content-between">
+        <h3 class="card-title"> Route from {{ origin }} to {{ destination }} </h3>
+        <p> <b> Distance: </b> {{ route_info.distance }} miles</p>
+        <p> <b> Estimated Duration: </b> {{ route_info.formattedTime }}</p>
+    </div>
+
+    <div class="narrative-box">
+        <h4>Narrative Instructions:</h4>
+        <ul>
+            {% for leg in route_info['legs'] %}
+                {% for maneuver in leg['maneuvers'] %}
+                    <li>{{ maneuver['narrative'] }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+
+{% else %}
+
+{% endif %}
+</body>
+</html>
