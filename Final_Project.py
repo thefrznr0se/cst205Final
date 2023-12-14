@@ -34,6 +34,34 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/index2', methods=['GET', 'POST'])
+def index2():
+    if request.method == 'POST':
+        # Get user input from the form
+        origin = request.form['origin']
+        destination1 = request.form['destination1']
+        destination2 = request.form['destination2']
+        destination3 = request.form['destination3']
+
+        # Get the route information from MapQuest API
+        route_info = get_route_info(origin, destination1)
+        route_info1 = get_route_info(origin, destination2)
+        route_info2 = get_route_info(origin, destination3)
+
+        # Get the static map URL
+        static_map_url = get_route_info2(origin, destination1)
+        static_map_url1 = get_route_info2(origin, destination2)
+        static_map_url2 = get_route_info2(origin, destination3)
+
+   
+
+        return render_template('index2.html', route_info=route_info, route_info1=route_info1, route_info2=route_info2, static_map_url=static_map_url, origin=origin,
+         destination1=destination1, destination2=destination2, destination3=destination3,
+         static_map_url1=static_map_url1, static_map_url2=static_map_url2)
+
+    return render_template('index2.html')
+
+
 def get_route_info(origin, destination):
     api_key = "0ZOdZgHrvADP8FzwKEvjXVf8VCGLmUjy"
     base_url = "https://www.mapquestapi.com/directions/v2/route"
