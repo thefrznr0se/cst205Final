@@ -22,13 +22,14 @@ def test():
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
+    # Handle POST request data
     if request.method == 'POST':
         origin = request.form['origin']
         destination = request.form['destination']
-
+        # Perform some processing, possibly with functions like get_route_info and get_route_info2
         route_info = get_route_info(origin, destination)
         static_map_url = get_route_info2(origin, destination)
-
+        # Render the 'index.html' template with the processed data
         return render_template('index.html', route_info=route_info, static_map_url=static_map_url, origin=origin, destination=destination)
     
     return render_template('index.html')
@@ -58,7 +59,7 @@ def index2():
         return render_template('index2.html', route_info=route_info, route_info1=route_info1, route_info2=route_info2, static_map_url=static_map_url, origin=origin,
          destination1=destination1, destination2=destination2, destination3=destination3,
          static_map_url1=static_map_url1, static_map_url2=static_map_url2)
-
+    #Render the 'index.html' template for GET requests
     return render_template('index2.html')
 
 
